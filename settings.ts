@@ -2,7 +2,7 @@ import { TimerPlugin } from "main";
 import { App, PluginSettingTab, Setting } from "obsidian";
 
 export class TimerSettingsTab extends PluginSettingTab {
-    plugin: TimerPlugin
+    plugin: TimerPlugin;
 
     constructor(app: App, plugin: TimerPlugin) {
         super(app, plugin);
@@ -10,20 +10,23 @@ export class TimerSettingsTab extends PluginSettingTab {
         this.plugin = plugin;
     }
 
-    display() {
-        let { containerEl } = this;
+    display(): void {
+        const { containerEl } = this;
+
+        containerEl.empty();
 
         containerEl.createEl("h1", {text: "Timer Settings"});
 
         new Setting(containerEl)
             .setName('Current Task')
-            .setDesc('Name of the current text')
-            .addText((item) => { 
-                item.setValue(this.plugin.settings.currentTask).onChange(
-                (value) => { this.plugin.settings.currentTask = value;
-                this.plugin.saveSettings()
+            .setDesc('Name of the current task')
+            .addText(text =>  
+                text.setValue(this.plugin.settings.currentTask)
+                .onChange( async (value) => { 
+                    this.plugin.settings.currentTask = value;
+                    await this.plugin.saveSettings();
                 })
-            });
+            );
 
     }
 

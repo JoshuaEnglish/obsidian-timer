@@ -19,10 +19,10 @@ export default class TimerPlugin extends Plugin {
             DEFAULT_SETTINGS, 
             await this.loadData()
         ); 
-    }
+    } 
 
     async saveSettings() {
-        this.saveData();
+        this.saveData(this.settings);
     }
 
 	async onload() {
